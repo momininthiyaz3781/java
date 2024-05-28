@@ -1,0 +1,30 @@
+Assignment 7: Create a script that takes a text file and replaces all occurrences of "old_text" with "new_text". Use sed to perform this operation and output the result to a new file.
+  
+SOLUTION:
+# Check if the correct number of arguments is provided
+
+if [ "$#" -ne 4 ]; then
+
+    echo "Usage: $0 input_file old_text new_text output_file"
+
+    exit 1
+
+fi
+ 
+# Assign input arguments to variables
+
+INPUT_FILE=$1
+
+OLD_TEXT=$2
+
+NEW_TEXT=$3
+
+OUTPUT_FILE=$4
+ 
+# Use sed to replace all occurrences of old_text with new_text
+
+sed "s/$OLD_TEXT/$NEW_TEXT/g" "$INPUT_FILE" > "$OUTPUT_FILE"
+ 
+# Print a message indicating the operation is complete
+
+echo "Replaced all occurrences of '$OLD_TEXT' with '$NEW_TEXT' in '$INPUT_FILE' and saved

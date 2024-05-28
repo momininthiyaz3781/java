@@ -1,0 +1,33 @@
+Assignment 3: 
+Create a function that takes a filename as an argument and prints the number of lines in the file. Call this function from your script with different filenames.
+
+SOLUTION:
+
+# Function to count the number of lines in a file
+
+count_lines() {
+
+  local filename=$1
+ 
+  if [ -f "$filename" ]; then
+
+    local line_count=$(wc -l < "$filename")
+
+    echo "The file '$filename' has $line_count lines."
+
+  else
+
+    echo "The file '$filename' does not exist."
+
+  fi
+
+}
+ 
+# Call the function with different filenames
+
+count_lines "inthu.txt"
+
+count_lines "shaik.txt"
+
+count_lines "momin.txt"
+ 

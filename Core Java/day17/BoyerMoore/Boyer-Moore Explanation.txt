@@ -1,0 +1,51 @@
+Task 6:
+Boyer-Moore Algorithm Application
+Use the Boyer-Moore algorithm to write a function that finds the last occurrence of a substring in a given string and returns its index. Explain why this algorithm can outperform others in certain scenarios.
+
+program:
+
+public class BoyerMoore {
+    public int lastIndexOf(String text, String pattern) {
+        if (pattern.length() == 0) return text.length();
+        int[] last = new int[256]; // ASCII table size
+        for (int i = 0; i < 256; i++) last[i] = -1; // -1 indicates no occurrence
+        for (int i = 0; i < pattern.length(); i++) last[pattern.charAt(i)] = i;
+
+        int n = text.length();
+        int m = pattern.length();
+        int skip;
+
+        for (int i = m - 1; i < n; i += skip) {
+            skip = 0;
+            for (int j = m - 1; j >= 0; j--) {
+                if (pattern.charAt(j) != text.charAt(i - m + 1 + j)) {
+                    skip = Math.max(1, j - last[text.charAt(i - m + 1 + j)]);
+                    break;
+                }
+            }
+            if (skip == 0) return i - m + 1; // Found
+        }
+        return -1; // Not found
+    }
+    public static void main(String[] args) {
+        String text = "This is an example text where we want to find the last occurrence of 'example'.";
+        String pattern = "example";
+        BoyerMoore bm = new BoyerMoore();
+        int lastIndex = bm.lastIndexOf(text, pattern);
+        if (lastIndex != -1) {
+            System.out.println("Pattern found at index: " + lastIndex);
+        } else {
+            System.out.println("Pattern not found.");
+        }
+    }
+} 
+
+.......................................................................................................................................................
+Explanation:
+
+*The Boyer-Moore algorithm is efficient for string searching because it uses two heuristics—Bad Character and Good Suffix—which allow it to skip along the text more efficiently than other search algorithms like the naive approach or even the Knuth-Morris-Pratt (KMP) algorithm.
+*To use this function, you would create an instance of BoyerMoore and call lastIndexOf with the text and the pattern you’re searching for.
+*The Boyer-Moore algorithm can outperform others in certain scenarios, particularly when the pattern being searched for is long and the set of possible characters in the text is large.
+ This is because the algorithm is designed to move the pattern more than one character at a time when a mismatch is found. 
+ The Bad Character heuristic allows it to skip sections of the text that cannot possibly contain the pattern, and the Good Suffix heuristic allows it to leverage the information from the part of the pattern that has already been matched to skip further. 
+ These skips can lead to a sub-linear time complexity on average, which is a significant improvement over algorithms that only move one character at a time.

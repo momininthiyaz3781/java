@@ -1,0 +1,70 @@
+Assignment 5: Modify the script to handle errors, such as the directory already existing or lacking permissions to create files.
+              Add a debugging mode that prints additional information when enabled.
+
+SOLUTION:
+
+# Set debugging mode (0 for off, 1 for on)
+
+DEBUG=1
+ 
+# Function to print debug messages
+
+debug() {
+
+  if [ $DEBUG -eq 1 ]; then
+
+    echo "DEBUG: $1"
+
+  fi
+
+}
+ 
+# Create a directory named TestDirNew
+
+if mkdir -p TestDirNew 2>/dev/null; then
+
+  debug "Directory 'TestDirNew' created or already exists."
+
+else
+
+  echo "Error: Unable to create directory 'TestDirNew'. Check permissions."
+
+  exit 1
+
+fi
+ 
+# Change to the TestDirNew directory
+
+if cd TestDirNew; then
+
+  debug "Changed to directory 'TestDirNew'."
+
+else
+
+  echo "Error: Unable to change to directory 'TestDirNew'. Check permissions."
+
+  exit 1
+
+fi
+ 
+# Loop to create 10 files
+
+for i in {1..10}; do
+
+  filename="File$i.txt"
+
+  if echo "$filename" > "$filename" 2>/dev/null; then
+
+    debug "File '$filename' created with content '$filename'."
+
+  else
+
+    echo "Error: Unable to create file '$filename'. Check permissions."
+
+    exit 1
+
+  fi
+
+done
+ 
+echo "Files created successfully in TestDirNew."
